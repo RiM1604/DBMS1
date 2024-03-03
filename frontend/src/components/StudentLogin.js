@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
 import "./CSS/StudentLogin.css";
 import { useNavigate } from 'react-router-dom';
+import { LoginContext } from '../context/LoginContext';
+
 export default function StudentLogin() {
     const [rollNo, setRollNo] = useState("");
     const [password, setPassword] = useState("");
-
+    const { LoginData, setLoginData } = useContext(LoginContext);
     const navigate = useNavigate();
     const postData = () => {
         // console.log(name, rollNo, password);
@@ -28,6 +30,9 @@ export default function StudentLogin() {
                 } else {
                     console.log(data);
                     //add password check here if wrong redirect to the same page.
+                    console.log(rollNo);
+                    setLoginData({ rollNo: rollNo, userType: "student" });
+                    // console.log(LoginData);
                     navigate('/student_page');
                 }
             })

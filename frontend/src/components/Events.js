@@ -14,7 +14,7 @@ export default function Event() {
             try {
                 const response = await fetch("http://localhost:5000/get_events");
                 const result = await response.json();
-                // console.log(result);
+                console.log(result);
                 setEventData(result);
             } catch (error) {
                 console.log("Dont know what error");
@@ -33,7 +33,7 @@ export default function Event() {
 
                     return (
                         <div key={index} className="dynamic-div">
-                            <h2>{item.event_name}</h2>
+                            <h2>{item.e_name}</h2>
                         </div>
                     )
                 })

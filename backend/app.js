@@ -43,18 +43,36 @@ app.get("/get_events", async (req, res) => {
 //     res.status(200).json({ message: "Signed in check on the way" });
 // });
 
-app.post("/admin_signup", (req, res) => {
-    const { name, rollNo, password } = req.body;
-    console.log(name, rollNo, password);
-    res.status(200).json({ message: "Signed in check on the way" });
-});
 
-app.post("/other_signup", (req, res) => {
-    const { name, rollNo, password } = req.body;
-    console.log(name, rollNo, password);
-    res.status(200).json({ message: "Signed in check on the way" });
+app.post("/register_event", async (req, res) => {
+    console.log(req.body);
+    const client = await pool.connect();
+    try {
+        const { eid, rollNo } = req.body;
+        const result = await client.query('INSERT INTO student_event (eid, roll) VALUES ($1, $2)', [eid, rollNo]);
+        // console.log(result.rows);
+        res.json({ message: "Registered for the event" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error registering for the event");
+    } finally {
+        client.release();
+    }
 })
 
+app.post('/volunteer', async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const { rollNo } = req.body;
+        const result = await client.query('INSERT INTO volunteer (roll) VALUES ($1)', [rollNo]);
+        res.json({ message: "Volunteered for the event" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error volunteering for the event");
+    } finally {
+        client.release();
+    }
+})
 
 app.listen(PORT, () => {
     console.log("Server is running on " + PORT);
