@@ -104,7 +104,7 @@ export default function StudentPage(props) {
                     }}>Register</span>
                   </div>
                   <div className="details-btn">
-                    <Link to="/details" state={{ data: item }} className="details-link">Details</Link>
+                    <Link to="/details" state={{ data: item, userdata: data }} className="details-link">Details</Link>
                   </div>
                 </div>
 

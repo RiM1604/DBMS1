@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import { useContext } from 'react';
+import { LoginContext } from '../context/LoginContext';
 export default function OrganizerLogin() {
 
     // const [name, setName] = useState("");
     const [organizerID, setorganizerID] = useState("");
     const [password, setPassword] = useState("");
-
+    const { LoginData, setLoginData } = useContext(LoginContext);
     const navigate = useNavigate();
 
 
@@ -33,6 +34,8 @@ export default function OrganizerLogin() {
                 } else {
                     console.log(data);
                     //add password check here if wrong redirect to the same page.
+                    console.log(organizerID);
+                    setLoginData({ organizerID: organizerID, userType: "organizer" });
                     navigate('/organizer_page');
                 }
             })

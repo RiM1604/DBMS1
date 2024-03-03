@@ -5,9 +5,10 @@ import './CSS/Details.css';
 
 export default function Details(props) {
     const location = useLocation();
-    const data = location.state.data;
-
+    const { data, userdata } = location.state;
+    // const userdata = location.state.userdata;
     console.log(data);
+    // console.log(userdata);
 
     return (
         <div className='details'>Details
@@ -16,6 +17,7 @@ export default function Details(props) {
                 <h2>{data.event_date}</h2>
                 <h3>{data.venue}</h3>
                 <h4>{data.type}</h4>
+                <h5>{userdata.rollNo}</h5>
                 <Link to="/student_page" className="back-btn">Back</Link>
             </div>
         </div>

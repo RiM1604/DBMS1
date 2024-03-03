@@ -48,7 +48,7 @@ function App() {
             <Route path="/events" element={<Events />}></Route>
             <Route path="/student_page" element={<StudentPage login={LoginData} />}></Route>
             <Route path="/admin_page" element={<AdminPage />}></Route>
-            <Route path="/organizer_page" element={<OrganizerPage />}></Route>
+            <Route path="/organizer_page" element={<OrganizerPage login={LoginData} />}></Route>
             <Route path="/other_page" element={<OtherPage />}></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="/details" element={<Details />}></Route>
