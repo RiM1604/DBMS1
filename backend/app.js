@@ -6,7 +6,7 @@ const pool = new pg.Pool({
     host: '127.0.0.1',
     database: 'postgres',
     user: 'postgres',
-    password: 'suksan2705',
+    password: 'Ritesh@123',
     port: '5432'
 })
 
@@ -51,13 +51,14 @@ app.post("/register_event", async (req, res) => {
         const { eid, rollNo } = req.body;
         const result = await client.query('INSERT INTO student_event (eid, roll) VALUES ($1, $2)', [eid, rollNo]);
         // console.log(result.rows);
-        res.json({ message: "Registered for the event" });
     } catch (error) {
         console.log(error);
         res.status(500).send("Error registering for the event");
     } finally {
         client.release();
     }
+    res.status(200).send({ message: "Registered for the event" });
+
 })
 
 app.post('/volunteer', async (req, res) => {

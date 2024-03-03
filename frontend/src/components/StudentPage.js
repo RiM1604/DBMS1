@@ -30,7 +30,8 @@ export default function StudentPage(props) {
 
   const handleRegister = (item) => {
     console.log(item);
-
+    console.log(data.rollNo);
+    console.log(item.eid);
     //send the info that this user is registered for this event
     //event id from item.eid and student id from data.rollNo
     //make a post call to server to register the student for the event

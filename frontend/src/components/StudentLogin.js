@@ -7,7 +7,7 @@ export default function StudentLogin() {
     const [rollNo, setRollNo] = useState("");
     const [password, setPassword] = useState("");
     const { LoginData, setLoginData } = useContext(LoginContext);
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const postData = () => {
         fetch("http://localhost:5000/student_login", {
             method: "post",
@@ -18,20 +18,21 @@ export default function StudentLogin() {
                 rollNo: rollNo,
                 password: password
             })
-        }).then(res=>res.json()).then(res =>{
-                if (res.error) {
-                    console.log("error");
-                }
-                else if(res.message==='No such user found.'){
+        }).then(res => res.json()).then(res => {
+            if (res.error) {
+                console.log("error");
+            }
+            else if (res.message === 'No such user found.') {
 
-                }
-                else if(res.message==='Wrong password.'){
+            }
+            else if (res.message === 'Wrong password.') {
 
-                }
-                else{
-                    navigate('/student_page')
-                } 
-            })
+            }
+            else {
+                setLoginData({ rollNo: rollNo, userType: "student" });
+                navigate('/student_page')
+            }
+        })
     }
     return (
         <div>StudentLogin
