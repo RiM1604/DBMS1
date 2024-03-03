@@ -12,11 +12,6 @@ export default function OtherSignUp() {
     const navigate = useNavigate();
 
     const postData = () => {
-        // console.log(name, collegeName, password);
-        console.log(name);
-        console.log(collegeName);
-        console.log(email);
-        console.log(password);
         fetch("http://localhost:5000/other_signup", {
             method: "post",
             headers: {
@@ -34,7 +29,6 @@ export default function OtherSignUp() {
                     console.log("error");
                 } else {
                     console.log(data);
-                    //store the data of the signup of the user
                     navigate('/');
                 }
             })

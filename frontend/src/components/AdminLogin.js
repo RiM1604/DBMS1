@@ -3,34 +3,32 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 export default function AdminLogin() {
-    // const [name, setName] = useState("");
     const [adminID, setAdminID] = useState("");
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
     const postData = () => {
-        // console.log(name, rollNo, password);
-        // console.log(name);
-        console.log(adminID);
-        console.log(password);
         fetch("http://localhost:5000/admin_login", {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                // name: name,
                 adminID: adminID,
                 password: password
             })
-        }).then(res => res.json())
-            .then(data => {
-                if (data.error) {
+        }).then(res => res.json()).then(res => {
+                if (res.error) {
                     console.log("error");
-                } else {
-                    console.log(data);
-                    //add password check here if wrong redirect to the same page.
-                    navigate('/admin_page');
+                }
+                else if(res.message==='No such user found.'){
+    
+                }
+                else if(res.message==='Wrong password.'){
+    
+                }
+                else{
+                    navigate('/admin_page')
                 }
             })
     }
