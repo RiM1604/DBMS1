@@ -2,39 +2,34 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 export default function OtherLogin() {
-    // const [name, setName] = useState("");
-    // const [collegeName, setCollegeName] = useState("");
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
     const postData = () => {
-        // console.log(name, collegeName, password);
-        // console.log(name);
-        // console.log(collegeName);
-        console.log(email);
-        console.log(password);
         fetch("http://localhost:5000/other_login", {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                // name: name,
-                // collegeName: collegeName,
                 email: email,
                 password: password
             })
-        }).then(res => res.json())
-            .then(data => {
-                if (data.error) {
-                    console.log("error");
-                } else {
-                    console.log(data);
-                    //add password check here if wrong redirect to the same page.
-                    navigate('/other_page');
-                }
-            })
+        }).then(res => res.json()).then(res => {
+            if (res.error) {
+                console.log("error");
+            }
+            else if(res.message==='No such user found.'){
+
+            }
+            else if(res.message==='Wrong password.'){
+
+            }
+            else{
+                navigate('/other_page')
+            }
+        })
     }
     return (
         <div>OtherLogin

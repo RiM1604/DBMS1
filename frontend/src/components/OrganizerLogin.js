@@ -4,39 +4,33 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { LoginContext } from '../context/LoginContext';
 export default function OrganizerLogin() {
-
-    // const [name, setName] = useState("");
     const [organizerID, setorganizerID] = useState("");
     const [password, setPassword] = useState("");
     const { LoginData, setLoginData } = useContext(LoginContext);
     const navigate = useNavigate();
-
-
     const postData = () => {
-        // console.log(name, rollNo, password);
-        // console.log(name);
-        console.log(organizerID);
-        console.log(password);
         fetch("http://localhost:5000/organizer_login", {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                // name: name,
                 organizerID: organizerID,
                 password: password
             })
-        }).then(res => res.json())
-            .then(data => {
-                if (data.error) {
+        }).then(res => res.json()).then(res => {
+                if (res.error) {
                     console.log("error");
-                } else {
-                    console.log(data);
-                    //add password check here if wrong redirect to the same page.
-                    console.log(organizerID);
+                }
+                else if(res.message==='No such user found.'){
+    
+                }
+                else if(res.message==='Wrong password.'){
+    
+                }
+                else{
                     setLoginData({ organizerID: organizerID, userType: "organizer" });
-                    navigate('/organizer_page');
+                    navigate('/organizer_page')
                 }
             })
     }
