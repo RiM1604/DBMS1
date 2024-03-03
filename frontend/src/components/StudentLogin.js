@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { LoginContext } from '../context/LoginContext';
 import "./CSS/StudentLogin.css";
 export default function StudentLogin() {
     const [rollNo, setRollNo] = useState("");
     const [password, setPassword] = useState("");
+    const { LoginData, setLoginData } = useContext(LoginContext);
     const navigate=useNavigate();
     const postData = () => {
         fetch("http://localhost:5000/student_login", {
@@ -28,7 +30,7 @@ export default function StudentLogin() {
                 }
                 else{
                     navigate('/student_page')
-                }
+                } 
             })
     }
     return (

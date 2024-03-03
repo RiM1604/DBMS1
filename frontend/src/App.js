@@ -1,8 +1,11 @@
 import './App.css';
 // import axios from 'axios';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Form } from "react-router-dom";
 import Home from './components/Home';
+import React, { createContext, useState } from 'react';
+import { LoginContext } from './context/LoginContext';
 // import Navbar from './components/Navbar';
+
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import StudentSignUp from './components/StudentSignUp';
@@ -18,32 +21,40 @@ import StudentPage from './components/StudentPage';
 import AdminPage from './components/AdminPage';
 import OrganizerPage from './components/OrganizerPage';
 import OtherPage from './components/OtherPage';
+import Register from './components/Register';
+import Details from './components/Details';
 
 function App() {
+
+  const [LoginData, setLoginData] = useState({})
   return (
     <BrowserRouter>
-      <div className="App">
-        {/* <Navbar /> */}
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/home" element={<Home />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/signup" element={<SignUp />}></Route>
-          <Route path="/student_signup" element={<StudentSignUp />}></Route>
-          <Route path="/organizer_signup" element={<OrganizerSignUp />}></Route>
-          <Route path="/admin_signup" element={<AdminSignUp />}></Route>
-          <Route path="/other_signup" element={<OtherSignUp />}></Route>
-          <Route path="/student_login" element={<StudentLogin />}></Route>
-          <Route path="/organizer_login" element={<OrganizerLogin />}></Route>
-          <Route path="/admin_login" element={<AdminLogin />}></Route>
-          <Route path="/other_login" element={<OtherLogin />}></Route>
-          <Route path="/events" element={<Events />}></Route>
-          <Route path="/student_page" element={<StudentPage />}></Route>
-          <Route path="/admin_page" element={<AdminPage />}></Route>
-          <Route path="/organizer_page" element={<OrganizerPage />}></Route>
-          <Route path="/other_page" element={<OtherPage />}></Route>
-        </Routes>
-      </div>
+      <LoginContext.Provider value={{ LoginData, setLoginData }}>
+        <div className="App">
+          {/* <Navbar /> */}
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/home" element={<Home />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/signup" element={<SignUp />}></Route>
+            <Route path="/student_signup" element={<StudentSignUp />}></Route>
+            <Route path="/organizer_signup" element={<OrganizerSignUp />}></Route>
+            <Route path="/admin_signup" element={<AdminSignUp />}></Route>
+            <Route path="/other_signup" element={<OtherSignUp />}></Route>
+            <Route path="/student_login" element={<StudentLogin />}></Route>
+            <Route path="/organizer_login" element={<OrganizerLogin />}></Route>
+            <Route path="/admin_login" element={<AdminLogin />}></Route>
+            <Route path="/other_login" element={<OtherLogin />}></Route>
+            <Route path="/events" element={<Events />}></Route>
+            <Route path="/student_page" element={<StudentPage login={LoginData} />}></Route>
+            <Route path="/admin_page" element={<AdminPage />}></Route>
+            <Route path="/organizer_page" element={<OrganizerPage />}></Route>
+            <Route path="/other_page" element={<OtherPage />}></Route>
+            <Route path="/register" element={<Register />}></Route>
+            <Route path="/details" element={<Details />}></Route>
+          </Routes>
+        </div>
+      </LoginContext.Provider>
     </BrowserRouter>
   );
 }

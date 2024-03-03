@@ -14,7 +14,7 @@ export default function Event() {
             try {
                 const response = await fetch("http://localhost:5000/get_events");
                 const result = await response.json();
-                // console.log(result);
+                console.log(result);
                 setEventData(result);
             } catch (error) {
                 console.log("Dont know what error");
