@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { LoginContext } from '../context/LoginContext';
+
 export default function OtherLogin() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("");
+    const { LoginData, setLoginData } = useContext(LoginContext);
     const navigate = useNavigate();
 
     const postData = () => {
@@ -20,13 +24,14 @@ export default function OtherLogin() {
             if (res.error) {
                 console.log("error");
             }
-            else if(res.message==='No such user found.'){
+            else if (res.message === 'No such user found.') {
 
             }
-            else if(res.message==='Wrong password.'){
+            else if (res.message === 'Wrong password.') {
 
             }
-            else{
+            else {
+                setLoginData({ email: email, userType: "other" });
                 navigate('/other_page')
             }
         })

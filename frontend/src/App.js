@@ -23,6 +23,8 @@ import OrganizerPage from './components/OrganizerPage';
 import OtherPage from './components/OtherPage';
 import Register from './components/Register';
 import Details from './components/Details';
+import VolunteerDetails from './components/VolunteerDetails';
+import Accomodation from './components/Accomodation';
 
 function App() {
 
@@ -49,9 +51,11 @@ function App() {
             <Route path="/student_page" element={<StudentPage login={LoginData} />}></Route>
             <Route path="/admin_page" element={<AdminPage />}></Route>
             <Route path="/organizer_page" element={<OrganizerPage login={LoginData} />}></Route>
-            <Route path="/other_page" element={<OtherPage />}></Route>
+            <Route path="/other_page" element={<OtherPage login={LoginData} />}></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="/details" element={<Details />}></Route>
+            <Route path="/volunteer_details" element={<VolunteerDetails />}></Route>
+            <Route path="/accomodation" element={<Accomodation />}></Route>
           </Routes>
         </div>
       </LoginContext.Provider>

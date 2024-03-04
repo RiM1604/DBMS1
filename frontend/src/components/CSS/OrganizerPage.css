@@ -1,0 +1,18 @@
+/*div with className volunteer-details-btn should have grey background white text color and like a button*/
+.volunteer-details-btn {
+    background-color: #548ab9;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.volunteer-details-link {
+    color: white;
+}

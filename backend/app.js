@@ -48,8 +48,15 @@ app.post("/register_event", async (req, res) => {
     console.log(req.body);
     const client = await pool.connect();
     try {
-        const { eid, rollNo } = req.body;
-        const result = await client.query('INSERT INTO student_event (eid, roll) VALUES ($1, $2)', [eid, rollNo]);
+
+
+        const { eid, rollNo, email } = req.body;
+        if (email) {
+            const result = await client.query('INSERT INTO other_event (email, eid) VALUES ($1, $2)', [email, eid]);
+
+        } else if (rollNo) {
+            const result = await client.query('INSERT INTO student_event (eid, roll) VALUES ($1, $2)', [eid, rollNo]);
+        }
         // console.log(result.rows);
     } catch (error) {
         console.log(error);
@@ -59,6 +66,58 @@ app.post("/register_event", async (req, res) => {
     }
     res.status(200).send({ message: "Registered for the event" });
 
+})
+
+app.post('/registered_events', async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const { rollNo, email } = req.body;
+        if (email) {
+            const result = await client.query('SELECT * from other_event where email=$1', [email]);
+            res.json(result.rows);
+
+        } else {
+            const result = await client.query('SELECT * from student_event where roll=$1', [rollNo]);
+            res.json(result.rows);
+
+        }
+        // res.json(result.rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error fetching registered events");
+    } finally {
+        client.release();
+    }
+})
+
+app.post('/volunteering_status', async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const { rollNo } = req.body;
+        const result = await client.query('SELECT * from volunteer where roll=$1', [rollNo]);
+        res.json(result.rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error fetching volunteering status");
+    } finally {
+        client.release();
+    }
+})
+
+app.get('/volunteer_details', async (req, res) => {
+    const client = await pool.connect();
+    try {
+
+        // const result = await client.query('SELECT * from volunteer;');
+        //result should be select all of the join of student and volunteer tables
+        const result = await client.query('SELECT * from student natural join volunteer;');
+        res.json(result.rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error fetching volunteering details");
+    } finally {
+        client.release();
+    }
 })
 
 app.post('/volunteer', async (req, res) => {

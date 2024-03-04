@@ -9,11 +9,11 @@ const pool = new pg.Pool({
     port: '5432'
 })
 
-router.post("/student_signup",async (req, res) => {
-    const { name, rollNo, password,dept } = req.body;
+router.post("/student_signup", async (req, res) => {
+    const { name, rollNo, password, dept } = req.body;
     const client = await pool.connect();
     try {
-        const result =await client.query( `INSERT INTO student VAlUES ('${rollNo}','${name}','${dept}','${password}')`);
+        const result = await client.query(`INSERT INTO student VAlUES ('${rollNo}','${name}','${dept}','${password}')`);
     } catch (error) {
         console.log(error);
         res.status(500).send("Server Error.");
@@ -23,11 +23,13 @@ router.post("/student_signup",async (req, res) => {
     res.status(200).json({ message: "Succesfully signed up." });
 })
 
-router.post("/organizer_signup",async (req, res) => {
+router.post("/organizer_signup", async (req, res) => {
     const { organizerID, password } = req.body;
+    // console.log(organizerID);
+    // console.log(password);
     const client = await pool.connect();
     try {
-        const result =await client.query( 'INSERT INTO organizer(orgid, password) VALUES ($1, $2)',[organizerID, password]);
+        const result = await client.query('INSERT INTO organizer(orgid, password) VALUES ($1, $2)', [organizerID, password]);
     } catch (error) {
         console.log(error);
         res.status(500).send("Server Error.");
@@ -36,11 +38,11 @@ router.post("/organizer_signup",async (req, res) => {
     }
     res.status(200).json({ message: "Succesfully signed up." });
 })
-router.post("/admin_signup",async (req, res) => {
+router.post("/admin_signup", async (req, res) => {
     const { adminID, password } = req.body;
     const client = await pool.connect();
     try {
-        const result =await client.query( 'INSERT INTO admin(aid, password) VALUES ($1, $2)',[adminID, password]);
+        const result = await client.query('INSERT INTO admin(aid, password) VALUES ($1, $2)', [adminID, password]);
     } catch (error) {
         console.log(error);
         res.status(500).send("Server Error.");
@@ -50,10 +52,10 @@ router.post("/admin_signup",async (req, res) => {
     res.status(200).json({ message: "Succesfully signed up." });
 })
 router.post("/other_signup", async (req, res) => {
-    const { name, collegeName, email , password } = req.body;
+    const { name, collegeName, email, password } = req.body;
     const client = await pool.connect();
     try {
-        const result =await client.query( `INSERT INTO other VAlUES ('${email}','${password}','${name}','${collegeName}')`);
+        const result = await client.query(`INSERT INTO other VAlUES ('${email}','${password}','${name}','${collegeName}')`);
     } catch (error) {
         console.log(error);
         res.status(500).send("Server Error.");

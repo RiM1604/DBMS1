@@ -3,14 +3,16 @@ import { useEffect, useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './CSS/StudentPage.css';
-
+import { useNavigate } from 'react-router-dom';
 
 export default function StudentPage(props) {
 
   const data = props.login;
-  console.log(data);
+  // console.log(data);
   const [eventData, setEventData] = useState([]);
-  // const navigate = useNavigate();
+  const [RegisteredEvents, setRegisteredEvents] = useState([]);
+  const [isVolunteering, setIsVolunteering] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     console.log("page loaded");
     const showEvents = async () => {
@@ -25,6 +27,56 @@ export default function StudentPage(props) {
         console.log(error.message);
       }
     }
+
+    const getRegisteredEvents = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/registered_events", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            rollNo: data.rollNo
+          })
+        });
+        const result = await response.json();
+        console.log(result);
+        const eidsOnly = result.map(item => item.eid);
+        setRegisteredEvents(eidsOnly);
+        // if (result.length > 0) {
+        //   setIsRegistered(true);
+        // }
+      } catch (error) {
+        console.log("Dont know what error");
+        console.log(error.message);
+      }
+    }
+
+    const getVolunteeringStatus = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/volunteering_status", {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            rollNo: data.rollNo
+          })
+        });
+        const result = await response.json();
+        console.log(result);
+        if (result.length > 0) {
+          setIsVolunteering(true);
+        }
+      } catch (error) {
+        console.log("Dont know what error");
+        console.log(error.message);
+      }
+    }
+
+
+    getVolunteeringStatus();
+    getRegisteredEvents();
     showEvents();
   }, [])
 
@@ -78,11 +130,25 @@ export default function StudentPage(props) {
       spanElement.textContent = "Volunteering";
     }
   }
+  const isEventRegistered = (eid) => {
+    return RegisteredEvents.includes(eid);
+  }
 
 
   return (
     <div className="StudentPage">
-      <h1>Student Page</h1>
+      <div className="header">
+        <h1 >Student Page
+        </h1>
+        <div className="logout">
+          <button className="logout-btn" onClick={() => {
+            localStorage.clear();
+            console.clear();
+            navigate('/');
+          }}>Logout</button>
+
+        </div>
+      </div>
       <div className="event">
         {
 
@@ -100,9 +166,18 @@ export default function StudentPage(props) {
                 <div className="options">
                   <div className="register-link">
                     {/* <Link to="/register" state={{ data: item }}><span>Register</span></Link> */}
-                    <span id={"register" + item.eid} onClick={() => {
+                    {
+                      isEventRegistered(item.eid) ? (
+                        <span>Registered</span>
+                      ) : (
+                        <span id={"register" + item.eid} onClick={() => {
+                          handleRegister(item);
+                        }}>Register</span>
+                      )
+                    }
+                    {/* <span id={"register" + item.eid} onClick={() => {
                       handleRegister(item);
-                    }}>Register</span>
+                    }}>Register</span> */}
                   </div>
                   <div className="details-btn">
                     <Link to="/details" state={{ data: item, userdata: data }} className="details-link">Details</Link>
@@ -116,9 +191,15 @@ export default function StudentPage(props) {
       </div>
 
       <div className="volunteer-btn">
-        <span id="volunteering" onClick={() => {
-          handleVolunteer();
-        }}>Volunteer</span>
+        {
+          isVolunteering ? (
+            <span>Volunteering</span>
+          ) : (
+            <span id="volunteering" onClick={() => {
+              handleVolunteer();
+            }}>Volunteer</span>
+          )
+        }
       </div>
 
     </div>
