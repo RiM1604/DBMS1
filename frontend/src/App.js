@@ -25,7 +25,9 @@ import Register from './components/Register';
 import Details from './components/Details';
 import VolunteerDetails from './components/VolunteerDetails';
 import Accomodation from './components/Accomodation';
-
+import Admin_student from './components/Admin_student';
+import Admin_org from './components/Admin_org';
+import Admin_other from './components/Admin_other';
 function App() {
 
   const [LoginData, setLoginData] = useState({})
@@ -56,6 +58,9 @@ function App() {
             <Route path="/details" element={<Details />}></Route>
             <Route path="/volunteer_details" element={<VolunteerDetails />}></Route>
             <Route path="/accomodation" element={<Accomodation />}></Route>
+            <Route path="/admin_student" element={<Admin_student />}></Route>
+            <Route path="/admin_org" element={<Admin_org />}></Route>
+            <Route path="/admin_other" element={<Admin_other />}></Route>
           </Routes>
         </div>
       </LoginContext.Provider>

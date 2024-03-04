@@ -6,7 +6,7 @@ const pool = new pg.Pool({
     host: '127.0.0.1',
     database: 'postgres',
     user: 'postgres',
-    password: 'Ritesh@123',
+    password: 'suksan2705',
     port: '5432'
 })
 
@@ -34,7 +34,91 @@ app.get("/get_events", async (req, res) => {
         client.release();
     }
 });
+app.get("/get_students", async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const result = await client.query("SELECT * from student;");
+        res.json(result.rows);
 
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error fetching events from the database");
+    } finally {
+        client.release();
+    }
+});
+app.get("/get_orgs", async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const result = await client.query("SELECT * from organizer;");
+        res.json(result.rows);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error fetching events from the database");
+    } finally {
+        client.release();
+    }
+});
+app.get("/get_others", async (req, res) => {
+    const client = await pool.connect();
+    try {
+        const result = await client.query("SELECT * from other;");
+        res.json(result.rows);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error fetching events from the database");
+    } finally {
+        client.release();
+    }
+});
+app.post("/delete_students", async (req, res) => {
+    const {roll,name,dept}=req.body;
+    const client = await pool.connect();
+    try {
+        let result = await client.query(`DELETE FROM student_event WHERE roll='${roll}';`);
+        result = await client.query(`DELETE from volunteer WHERE roll='${roll}';`);
+        result = await client.query(`DELETE from student WHERE roll='${roll}';`);
+        res.status(200).send({messgae:"Successfully deleted"});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message:"Error fetching events from the database"});
+    } finally {
+        client.release();
+    }
+});
+app.post("/delete_others", async (req, res) => {
+    const {email,name,college}=req.body;
+    const client = await pool.connect();
+    try {
+        let result = await client.query(`DELETE FROM other_event WHERE email='${email}';`);
+        result = await client.query(`DELETE from other WHERE email='${email}';`);
+        res.status(200).send({messgae:"Successfully deleted"});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message:"Error fetching events from the database"});
+    } finally {
+        client.release();
+    }
+});
+app.post("/delete_orgs", async (req, res) => {
+    const {orgid}=req.body;
+    const client = await pool.connect();
+    try {
+        let result = await client.query(`DELETE FROM org_event WHERE orgid='${orgid}';`);
+        result = await client.query(`DELETE from organizer WHERE orgid='${orgid}';`);
+        res.status(200).send({messgae:"Successfully deleted"});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message:"Error fetching events from the database"});
+    } finally {
+        client.release();
+    }
+});
 
 
 // app.post("/organizer_signup", (req, res) => {
